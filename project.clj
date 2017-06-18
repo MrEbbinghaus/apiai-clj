@@ -1,6 +1,5 @@
-(defproject apiai-clj "0.1.0-SNAPSHOT"
+(defproject apiai-clj "0.1.0"
   :description "FIXME: write description"
-  :url "http://example.com/FIXME"
   :scm {:url "git@github.com:MrOerni/apiai-clj.git"}
   :deploy-branches ["master"]
   :license {:name "Eclipse Public License"
