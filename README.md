@@ -1,7 +1,7 @@
 # apiai-clj
 [![Clojars Project](https://img.shields.io/clojars/v/apiai-clj.svg)](https://clojars.org/apiai-clj)
 
-A Clojure library designed to handle apiai POST requests.
+A Clojure library designed to handle api.ai POST requests.
 
 ## Usage
 
@@ -41,12 +41,12 @@ Defines an action complementary to an action on api.ai
 ```clojure
 (ns apiai-clj.example-actions
   (:require [apiai-clj.core :refer :all]))
-  
+
 ;; For an apiai-action with name `hello-world`, without any parameter
 (defaction hello-world [_] (simple-speech-response "Hello World"))
 
-;; For an apiai-action with name `echo-name` with parameter `given-name` 
-(defaction echo-name [request-body] 
+;; For an apiai-action with name `echo-name` with parameter `given-name`
+(defaction echo-name [request-body]
   (let [given-name (get-in request-body [:result :parameters :given-name])]
     (simple-speech-response "Hello " given-name)))
 ```
