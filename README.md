@@ -1,5 +1,6 @@
 # apiai-clj
-[![Clojars Project](https://img.shields.io/clojars/v/apiai-clj.svg)](https://clojars.org/apiai-clj)
+[![Clojars Project](https://img.shields.io/clojars/v/apiai-clj/apiai.svg)](https://clojars.org/apiai-clj/apiai)
+
 
 A Clojure library designed to handle api.ai POST requests.
 
