@@ -1,4 +1,4 @@
-(defproject apiai-clj "0.1.0-SNAPSHOT"
+(defproject apiai "0.1.0-SNAPSHOT"
   :description "A Clojure library designed to handle api.ai POST requests."
   :scm {:url "git@github.com:MrOerni/apiai-clj.git"}
   :deploy-branches ["master"]
