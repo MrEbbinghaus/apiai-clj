@@ -17,7 +17,7 @@ Same for the other way round.
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
             [ring.middleware.json :refer [wrap-json-response wrap-json-body]]
             [ring.util.response :refer [response]]
-            [apiai-clj.core :refer :all]
+            [apiai-clj.core :as ai]
             [apiai-clj.example-actions :refer :all]))
 
 (defroutes app-routes
