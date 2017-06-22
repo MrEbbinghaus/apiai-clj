@@ -12,14 +12,14 @@ Same for the other way round.
 
 #### `dispatch-action`:
 ```clojure
-(ns apiai-clj.example-app
-  (:require [compojure.core :refer :all]
+(ns apiai.example-app
+  (:require [compojure.core :refer [defroutes GET POST]]
             [compojure.route :as route]
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
             [ring.middleware.json :refer [wrap-json-response wrap-json-body]]
             [ring.util.response :refer [response]]
-            [apiai-clj.core :as ai]
-            [apiai-clj.example-actions :refer :all]))
+            [apiai.core :as ai]
+            [apiai.example-actions :refer-macros [hello-world echo-name]))
 
 (defroutes app-routes
   (GET "/" [] "Hello World")
@@ -40,16 +40,16 @@ Same for the other way round.
 Defines an action complementary to an action on api.ai
 
 ```clojure
-(ns apiai-clj.example-actions
-  (:require [apiai-clj.core :refer :all]))
+(ns apiai.example-actions
+  (:require [apiai.core :as ai :refer [defaction]]))
 
 ;; For an apiai-action with name `hello-world`, without any parameter
-(defaction hello-world [_] (simple-speech-response "Hello World"))
+(defaction hello-world [_] (ai/simple-speech-response "Hello World"))
 
 ;; For an apiai-action with name `echo-name` with parameter `given-name`
 (defaction echo-name [request-body]
   (let [given-name (get-in request-body [:result :parameters :given-name])]
-    (simple-speech-response "Hello " given-name)))
+    (ai/simple-speech-response "Hello " given-name)))
 ```
 
 ## License
