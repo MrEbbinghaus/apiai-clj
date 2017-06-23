@@ -19,7 +19,7 @@ Same for the other way round.
             [ring.middleware.json :refer [wrap-json-response wrap-json-body]]
             [ring.util.response :refer [response]]
             [apiai.core :as ai]
-            [apiai.example-actions :refer-macros [hello-world echo-name]))
+            [apiai.example-actions]))
 
 (defroutes app-routes
   (GET "/" [] "Hello World")
