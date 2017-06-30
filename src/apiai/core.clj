@@ -41,3 +41,6 @@
             {:headers {:Authorization [(str "Bearer" dev-token)]}
              :content-type :json
              :body (json/write-str [{:name name :entries entries}])}))
+
+(defn get-contexts [request]
+  (into {} (map (fn [e] [(keyword (:name e)) e]) (get-in request [:result :contexts]))))
