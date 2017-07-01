@@ -10,8 +10,8 @@
   [& speech]
   {:speech (apply str speech)
    :displayText (apply str speech)
-   :data []
-   :contextOut []
+   :data {}
+   :contextOut {}
    :source ""})
 
 (defmulti dispatch-action
@@ -44,3 +44,7 @@
 
 (defn get-contexts [request]
   (into {} (map (fn [e] [(keyword (:name e)) e]) (get-in request [:result :contexts]))))
+
+(defn get-service [request]
+  (keyword (get-in request [:originalRequest :source]
+             (get-in request [:result :source]))))
