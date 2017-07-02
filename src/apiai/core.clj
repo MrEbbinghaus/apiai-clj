@@ -1,6 +1,7 @@
 (ns apiai.core
   (:require [clj-http.client :as client]
-            [clojure.data.json :as json]))
+            [clojure.data.json :as json]
+            [clojure.string :refer [blank?]]))
 
 (def apiai-base "https://api.api.ai/v1")
 (def dev-token (System/getenv "API_AI_DEVTOKEN"))
@@ -33,7 +34,7 @@
 
 (defn fulfillment-empty? [request]
   "True if speech is empty or there is no fulfillment"
-  (= "" (get-in request [:result :fulfillment :speech] "")))
+  (blank? (get-in request [:result :fulfillment :speech])))
 
 (defn update-entities! [name entries]
   "Updates the entities on api.ai"

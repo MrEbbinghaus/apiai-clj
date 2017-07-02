@@ -1,4 +1,4 @@
-(ns apiai.facebook
+(ns apiai.integrations.facebook
   "A library to work with the facebook api.ai integration"
   (:require [apiai.core :as core]
             [clojure.tools.logging :as log]))
