@@ -6,5 +6,5 @@
   {:speech (apply str speech)
    :displayText (apply str speech)
    :data {}
-   :contextOut {}
+   :contextOut []
    :source ""})

@@ -1,7 +1,7 @@
 (ns apiai.integrations.facebook
   "A library to work with the facebook api.ai integration"
   (:require [apiai.core :as core]
-            [clojure.tools.logging :as log]))
+            [clojure.spec.alpha :as s]))
 
 (defn response
   "Returns a response for api.ai to forward to the facebook integration.
@@ -15,6 +15,8 @@
   quick-replies has to be a sequence of 'quick_replie's
   https://developers.facebook.com/docs/messenger-platform/send-api-reference/quick-replies#quick_reply"
   [text quick-replies]
+  {:pre [(s/valid? (s/coll-of ::quick-reply :min-count 1 :max-count 11) quick-replies)
+         (s/valid? string? text)]}
   (response {:text text
              :quick_replies (vec quick-replies)}))
 
