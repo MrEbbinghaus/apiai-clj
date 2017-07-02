@@ -41,15 +41,16 @@ Defines an action complementary to an action on api.ai
 
 ```clojure
 (ns apiai.example-actions
-  (:require [apiai.core :as ai :refer [defaction]]))
+  (:require [apiai.core :refer [defaction]
+             apiai.integrations.agent :as agent]))
 
 ;; For an apiai-action with name `hello-world`, without any parameter
-(defaction hello-world [_] (ai/simple-speech-response "Hello World"))
+(defaction hello-world [_] (agent/simple-speech-response "Hello World"))
 
 ;; For an apiai-action with name `echo-name` with parameter `given-name`
 (defaction echo-name [request-body]
   (let [given-name (get-in request-body [:result :parameters :given-name])]
-    (ai/simple-speech-response "Hello " given-name)))
+    (agent/simple-speech-response "Hello " given-name)))
 ```
 
 ## License
