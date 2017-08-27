@@ -1,0 +1,245 @@
+openapi: 3.0.0
+info:
+  title: API.ai
+  version: 1.0.0
+servers:
+  - url: 'https://api.api.ai'
+security:
+  - Bearer: []
+paths:
+  /entities:
+    get:
+      tags:
+        - entities
+      summary: Retrieves a list of all entities for the agent.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      description: ID of the entity
+                    name:
+                      type: string
+                      description: Name of the entity
+                    count:
+                      type: integer
+                      description: The total number of synonyms in the entity
+                    preview:
+                      type: string
+                      description: >-
+                        A string that contains summary information about the
+                        entity
+    post:
+      tags:
+        - entities
+      summary: Creates a new entity.
+      requestBody:
+        $ref: '#/components/schemas/Entity'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  status:
+                    $ref: '#/components/schemas/Status_OK'
+    put:
+      tags:
+        - entities
+      summary: Creates or updates multiple entities.
+      requestBody:
+        $ref: '#/components/schemas/Entity'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  status:
+                    $ref: '#/components/schemas/Status_OK'
+  '/entities/{eid}':
+    parameters:
+      - $ref: '#/components/parameters/eid'
+    get:
+      tags:
+        - entities
+      summary: Retrieves the specified entity.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Entity'
+    put:
+      tags:
+        - entities
+      summary: Updates the specified entity.
+      requestBody:
+        $ref: '#/components/schemas/Entity'
+      responses:
+        '200':
+          $ref: '#/components/schemas/Entity'
+    delete:
+      tags:
+        - entities
+      summary: Deletes the specified entity.
+      parameters:
+        - $ref: '#/components/parameters/eid'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+  '/entities/{eid}/entries':
+    parameters:
+      - $ref: '#/components/parameters/eid'
+    post:
+      tags:
+        - entities
+      summary: Adds an array of entity entries to the specified entity.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Entry'
+      responses:
+        '200':
+          description: OK
+    put:
+      tags:
+        - entities
+      summary: Updates an array of entity entries in the specified entity.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  status:
+                    $ref: '#/components/schemas/Status_OK'
+    delete:
+      tags:
+        - entities
+      summary: Deletes an array of entity entries from the specified entity.
+      responses:
+        '200':
+          description: OK
+tags:
+  - name: entities
+    description: >-
+      The entities endpoint is used to create, retrieve, update, and delete
+      developer-defined entity objects.
+    externalDocs:
+      url: 'https://api.ai/docs/reference/agent/entities'
+components:
+  parameters:
+    eid:
+      in: path
+      name: eid
+      description: >-
+        The ID of the entity to retrieve. You can specify the entity by its name
+        instead of its ID.
+      required: true
+      schema:
+        type: string
+  schemas:
+    Entity:
+      description: >-
+        The entity JSON object contains all information about an entity,
+        including its ID, name, and entries.
+      properties:
+        id:
+          type: string
+          description: A unique identifier for the entity.
+        name:
+          type: string
+          description: The name of the entity.
+        isOverridable:
+          type: boolean
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/Entry'
+          description: >-
+            An array of entry objects, which contain reference values and
+            synonyms.
+        isEnum:
+          type: boolean
+          description: Indicates if the entity is a mapping or an enum type entity.
+        automatedExpansion:
+          type: boolean
+          description: Indicates if the entity can be automatically expanded.
+    Entry:
+      properties:
+        value:
+          type: string
+          description: >-
+            - For mapping entities: a reference val
+
+            - For enum type entities: a string that can contain references to
+            other entities (with or without alias)
+        synonyms:
+          description: >-
+            - For mapping entities: an array of synonyms
+
+            - For enum type entities: a string that is identical to the value
+            str
+          type: array
+          items:
+            type: string
+    Status:
+      properties:
+        code:
+          type: integer
+        errorType:
+          type: string
+        errorId:
+          type: string
+        errorDetails:
+          type: string
+    Status_OK:
+      properties:
+        code:
+          type: string
+          example: '200'
+          default: '200'
+        errorType:
+          type: string
+          example: success
+          default: success
+  responses:
+    status_200:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Status_OK'
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      name: developer-token
+      in: header
