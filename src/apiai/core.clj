@@ -28,12 +28,19 @@
   "True if speech is empty or there is no fulfillment"
   (blank? (get-in request [:result :fulfillment :speech])))
 
-(defn update-entities! [name entries]
-  "Updates the entities on api.ai"
-  (client/put (str apiai-base "/entities")
-            {:headers {:Authorization [(str "Bearer" dev-token)]}
-             :content-type :json
-             :body (json/write-str [{:name name :entries entries}])}))
+(defn request [body]
+  {:headers {:Authorization [(str "Bearer" dev-token)]}
+   :content-type :json
+   :body (json/write-str body)})
+
+(defn update-entity! [name entries]
+  "Updates an entity on api.ai"
+  (client/put (str apiai-base "/entities/" name "/entries") (request entries)))
+
+(defn remove-entity! [name]
+  "Remove an entity from api.ai.
+   This won't work if the entity is in use in any intent."
+  (client/delete (str apiai-base "/entities/" name) {:headers {:Authorization [(str "Bearer" dev-token)]}}))
 
 (defn get-contexts [request]
   (into {} (map (fn [e] [(keyword (:name e)) e]) (get-in request [:result :contexts]))))
